@@ -1,0 +1,59 @@
+name: Build
+
+# Builds 4OS2 with Open Watcom v2 on Linux (build.sh) and keeps the
+# programs, the book and the license as an artifact. A tag starting
+# with "v" also publishes them as a release.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Open Watcom v2
+        uses: open-watcom/setup-watcom@v1
+        with:
+          version: "2.0-64"
+
+      - name: Build
+        run: sh build.sh out
+
+      - name: Check the programs
+        run: |
+          for f in 4OS2.EXE JPOS2DLL.DLL KEYSTACK.EXE SHRALIAS.EXE OPTION2.EXE 4OS2.INF; do
+            test -s "out/$f" || { echo "missing out/$f"; exit 1; }
+          done
+          # Each program is an LX module behind its DOS stub.
+          for f in out/*.EXE out/*.DLL; do
+            off=$(od -An -tu4 -j60 -N4 "$f" | tr -d ' ')
+            sig=$(dd if="$f" bs=1 skip="$off" count=2 2>/dev/null)
+            [ "$sig" = LX ] || { echo "$f: not an LX module"; exit 1; }
+          done
+          ls -l out
+
+      - name: Package
+        run: |
+          mkdir -p dist
+          cp out/*.EXE out/*.DLL out/4OS2.INF dist/
+          cp license.txt readme.1st 4os2h.txt 4os2.ini.sample 4start.cmd.sample 4os2Alias.sample examples.btm dist/
+          [ -f CHANGES.md ] && cp CHANGES.md dist/
+          (cd dist && zip -q -r ../4os2.zip .)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 4os2
+          path: dist/
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" 4os2.zip --title "4OS2 $GITHUB_REF_NAME" --notes "Built with Open Watcom v2 by build.sh."
