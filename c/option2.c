@@ -37,7 +37,7 @@ UINT gaIniKeys[2 * INI_KEYMAX];
 // 200808xx AB add trace definitions for Dennis Bareis / AB pmprintf untility
 #ifdef __DEBUG_PMPRINTF__
     #include "pmprintf.h"
-    #include <STDARG.H>
+    #include <stdarg.h>
     #define  __PMPRINTF__
     #define TRACE( ... )   PmpfF ( ( __VA_ARGS__ ) )
 #else
@@ -193,7 +193,7 @@ void StripTrailing(char *arg, char *delims)
 }
 
 // get command line from console or file
-int getline( int fd, char *line, int nMaxSize )
+int JpGetLine( int fd, char *line, int nMaxSize )
 {
     int i;
 
@@ -245,7 +245,7 @@ void TCWritePrivateProfileStr( char *pszSection, char *pszItem, char *pszBuffer 
     if ( pszItem != NULL )
         nLength = strlen( pszItem );
 
-    while ( getline( fd, szBuffer, 1023 ) > 0 ) {
+    while ( JpGetLine( fd, szBuffer, 1023 ) > 0 ) {
 
         StripLeading( szBuffer, " \t[" );
         StripTrailing( szBuffer, " \t]" );
@@ -256,7 +256,7 @@ void TCWritePrivateProfileStr( char *pszSection, char *pszItem, char *pszBuffer 
                 if ( ( pszItem != NULL ) && ( szBuffer[0] ) )
                     lOffset = _lseek( fd, 0L, SEEK_CUR );
                 szBuffer[0] = '\0';
-                i = getline( fd, szBuffer, 1023 );
+                i = JpGetLine( fd, szBuffer, 1023 );
 
                 StripLeading( szBuffer, " \t" );
                 if ( ( i <= 0 ) || ( szBuffer[0] == '[' ) || (( pszItem != NULL ) && ( strnicmp( szBuffer, pszItem, nLength ) == 0 ) && ( szBuffer[ nLength ] == '=' )) ) {

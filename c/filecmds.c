@@ -2390,9 +2390,9 @@ int type_cmd( int argc, char **argv )
                 // 20100318 AB /L or /P do not work with wrnd32$ cause this would require reading 4k chunks at once
                 // one possibility would be when opening a device, read big_buffer (0xFE00 bytes is was cmd.exe does)
                 // and then in getline return desired data bytes from big_buffer instead from device
-                // as this would lead to buffer copying in getline (imagine big_buffer gets empty, read new chunk,
+                // as this would lead to buffer copying in JpGetLine (imagine big_buffer gets empty, read new chunk,
                 // append to big_buffer...) this is not implemented yet
-                for ( lRow = 1; ( ( iLen = getline( gnGFH, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) ) > 0 ); lRow++ ) {
+                for ( lRow = 1; ( ( iLen = JpGetLine( gnGFH, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) ) > 0 ); lRow++ ) {
                     TRACE("getline lenght %d", iLen);
                     if ( fType & TYPE_LINENO )
                         printf( "%4lu : ",lRow);
@@ -2435,7 +2435,7 @@ int y_cmd( int argc, char **argv )
     int nBytesRead, fEof;
     char *ptr, szYBuf[514];
 
-    for ( fEof = 0; (( fEof == 0 ) && ( getline( STDIN, szYBuf, 512, EDIT_DATA ) > 0 )); ) {
+    for ( fEof = 0; (( fEof == 0 ) && ( JpGetLine( STDIN, szYBuf, 512, EDIT_DATA ) > 0 )); ) {
 
         // look for ^Z
         if ( ( ptr = strchr( szYBuf, EoF )) != NULL ) {
@@ -2498,7 +2498,7 @@ int tee_cmd( int argc, char **argv )
                 fTeeClip = fd[nFiles];
         }
 
-        for ( fEof = 0; (( fEof == 0 ) && ( getline( STDIN, szTeeBuffer, CMDBUFSIZ, EDIT_DATA ) > 0 )); ) {
+        for ( fEof = 0; (( fEof == 0 ) && ( JpGetLine( STDIN, szTeeBuffer, CMDBUFSIZ, EDIT_DATA ) > 0 )); ) {
 
             // look for ^Z
             if ( ( ptr = strchr( szTeeBuffer, EoF )) != NULL ) {

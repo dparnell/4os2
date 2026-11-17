@@ -43,7 +43,7 @@ static int SetFromFile( char *szLine, char *pchList, int fRemove )
         if (( gnGFH = _sopen( arg, (O_RDONLY | O_BINARY), SH_DENYWR )) < 0 )
             return ( error( _doserrno, arg ));
 
-        for ( arg = szBuffer; (( rval == 0 ) && ( getline( gnGFH, arg, CMDBUFSIZ-((arg-szBuffer)+1), EDIT_DATA ) > 0 )); ) {
+        for ( arg = szBuffer; (( rval == 0 ) && ( JpGetLine( gnGFH, arg, CMDBUFSIZ-((arg-szBuffer)+1), EDIT_DATA ) > 0 )); ) {
 
             // remove leading white space
             strip_leading( arg, WHITESPACE );

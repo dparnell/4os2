@@ -124,7 +124,7 @@ static int IniFProc(char *fname, INIFILE *InitData, unsigned int fIgnoreSection)
     }
 
     // loop to process each line
-    for (line_num = 1; (getline(fh, szBuffer, 1023, EDIT_COMMAND) > 0); line_num++) {
+    for (line_num = 1; (JpGetLine(fh, szBuffer, 1023, EDIT_COMMAND) > 0); line_num++) {
 
         // skip line if empty or all comment
         arg = skipspace( szBuffer );

@@ -209,7 +209,7 @@ int BatchCLI( void )
             break;
 
         // get file input
-        if ( getline( bframe[cv.bn].bfd, gszCmdline, MAXLINESIZ-1, EDIT_COMMAND ) == 0 )
+        if ( JpGetLine( bframe[cv.bn].bfd, gszCmdline, MAXLINESIZ-1, EDIT_COMMAND ) == 0 )
             break;
         bframe[cv.bn].uBatchLine++;
         BatchExecCmd:
@@ -270,7 +270,7 @@ void close_batch_file( void )
 
 
 // get command line from console or file
-int getline( int fd, char *line, int nMaxSize, int nEditFlag )
+int JpGetLine( int fd, char *line, int nMaxSize, int nEditFlag )
 {
     int i;
     int fPipe = 0, fDevice = 0;
@@ -1054,7 +1054,7 @@ static int command_groups( char *pszStartLine, int remove_parens )
             if ( cv.bn < 0 ) {
 
                 printf( COMMAND_GROUP_MORE );
-                rval = getline( STDIN, ptr, rval, EDIT_COMMAND );
+                rval = JpGetLine( STDIN, ptr, rval, EDIT_COMMAND );
 
                 // add it to history list
                 addhist( ptr );
@@ -1064,7 +1064,7 @@ static int command_groups( char *pszStartLine, int remove_parens )
                     (void)_log_entry( ptr, 1 );
 
             } else {
-                rval = getline( bframe[ cv.bn ].bfd, ptr, rval, EDIT_COMMAND );
+                rval = JpGetLine( bframe[ cv.bn ].bfd, ptr, rval, EDIT_COMMAND );
                 bframe[cv.bn].uBatchLine++;
             }
 
@@ -1135,13 +1135,13 @@ int continued_line( char *pszStartLine )
             if ( cv.bn < 0 ) {
 
                 printf( COMMAND_GROUP_MORE );
-                getline( STDIN, pszStartLine, nLength, EDIT_COMMAND );
+                JpGetLine( STDIN, pszStartLine, nLength, EDIT_COMMAND );
 
                 // add it to history list
                 addhist( pszStartLine );
 
             } else {
-                getline( bframe[cv.bn].bfd, pszStartLine, nLength, EDIT_COMMAND );
+                JpGetLine( bframe[cv.bn].bfd, pszStartLine, nLength, EDIT_COMMAND );
                 bframe[cv.bn].uBatchLine++;
             }
         }

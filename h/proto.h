@@ -275,7 +275,7 @@ void find_4files( char * );
 int BatchCLI( void );
 int open_batch_file( void );
 void close_batch_file( void );
-int getline( int, char *, int, int );
+int JpGetLine( int, char *, int, int );
 
 int command( char *, int );
 

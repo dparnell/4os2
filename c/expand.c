@@ -1434,7 +1434,7 @@ static int var_func(char *func, char *szBuffer )
                         return ERROR_INVALID_PARAMETER;
 
                     if ( n == 0 ) {
-                        if ( getline( i, var, MAXARGSIZ, EDIT_DATA ) <= 0 )
+                        if ( JpGetLine( i, var, MAXARGSIZ, EDIT_DATA ) <= 0 )
                             var = END_OF_FILE_STR;
                     } else {
                         if ( n > MAXARGSIZ )
@@ -1484,7 +1484,7 @@ static int var_func(char *func, char *szBuffer )
                     // rewind & read a line from the file
                     RewindFile( i );
                     for ( ; ( lOffset > 0L ); lOffset-- ) {
-                        if ( getline( i, var, MAXARGSIZ, EDIT_DATA ) <= 0 )
+                        if ( JpGetLine( i, var, MAXARGSIZ, EDIT_DATA ) <= 0 )
                             break;
                     }
                     sprintf( var, FMT_LONG, _lseek( i, 0L, SEEK_CUR ));
@@ -1758,7 +1758,7 @@ static int var_func(char *func, char *szBuffer )
 
                     // read a line from the file
                     for ( ; ( lOffset >= 0L ); lOffset-- ) {
-                        if ( getline( gnGFH, var, MAXLINESIZ-1, EDIT_DATA ) <= 0 ) {
+                        if ( JpGetLine( gnGFH, var, MAXLINESIZ-1, EDIT_DATA ) <= 0 ) {
                             if ( offset == FUNC_LINE )
                                 var = END_OF_FILE_STR;
                             break;
@@ -2069,7 +2069,7 @@ static int var_func(char *func, char *szBuffer )
 				    list[0] = fptr;
 			    }
 
-			    if ( getline( n, szBuffer, MAXARGSIZ, EDIT_DATA ) <= 0 )
+			    if ( JpGetLine( n, szBuffer, MAXARGSIZ, EDIT_DATA ) <= 0 )
 				break;
 
 			    length = strlen( szBuffer ) + 1;
@@ -3097,7 +3097,7 @@ int history_cmd( int argc, char **argv )
 	    return( error( _doserrno, arg ));
 
 	// add the line to the history
-	for ( arg = gszCmdline, glpHptr = 0L; ( getline( gnGFH, arg, MAXLINESIZ - ((int)( arg - gszCmdline ) + 1 ), EDIT_DATA ) > 0 ); ) {
+	for ( arg = gszCmdline, glpHptr = 0L; ( JpGetLine( gnGFH, arg, MAXLINESIZ - ((int)( arg - gszCmdline ) + 1 ), EDIT_DATA ) > 0 ); ) {
 
 	    // if last char is escape character, append
 	    //   the next line

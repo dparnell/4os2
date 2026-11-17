@@ -45,7 +45,7 @@
 // 200808xx AB add trace definitions for Dennis Bareis / AB pmprintf untility
 #ifdef __DEBUG_PMPRINTF__
     #include "pmprintf.h"
-    #include <STDARG.H>
+    #include <stdarg.h>
     #define  __PMPRINTF__
     #define TRACE( ... )   PmpfF ( ( __VA_ARGS__ ) )
 #else

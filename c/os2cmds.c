@@ -574,7 +574,7 @@ int start_cmd( int argc, char **argv )
                     (void)DosAllocMem((PVOID)&( stdata.Environment),4096,(PAG_COMMIT | PAG_READ | PAG_WRITE));
                     memset( stdata.Environment, '\0', 4096 );
 
-                    for ( n = 0; ( getline( gnGFH, szBuffer, 511, EDIT_DATA ) > 0 ); )
+                    for ( n = 0; ( JpGetLine( gnGFH, szBuffer, 511, EDIT_DATA ) > 0 ); )
                         n += sprintf( stdata.Environment+n, FMT_STR, szBuffer ) + 1;
 
                     gnGFH = _close( gnGFH );

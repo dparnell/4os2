@@ -325,7 +325,7 @@ int battext_cmd( int argc, char **argv )
         return BATCH_RETURN;
 
     // scan the batch file until we find an ENDTEXT
-    while ( getline( bframe[cv.bn].bfd, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
+    while ( JpGetLine( bframe[cv.bn].bfd, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
 
         bframe[cv.bn].uBatchLine++;
 
@@ -594,7 +594,7 @@ int do_cmd( int argc, char **argv)
                     }
                 }
 
-                if ( ( hFH >= 0 ) && ( getline( hFH, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) <= 0 ) ) {
+                if ( ( hFH >= 0 ) && ( JpGetLine( hFH, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) <= 0 ) ) {
                     // end of file - close & get next arg
                     if ( hFH != STDIN )
                         _close( hFH );
@@ -1131,7 +1131,7 @@ int for_cmd( int argc, char **argv)
                     }
                 }
 
-                if ( getline( hFH, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) <= 0 ) {
+                if ( JpGetLine( hFH, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) <= 0 ) {
                     // end of file - close & get next arg
                     if ( hFH != STDIN )
                         _close( hFH );
@@ -1312,7 +1312,7 @@ static int goto_label(char *label, int error_flag)
     SearchFromTop:
 
     // scan for the label
-    while ( getline( bframe[cv.bn].bfd, line, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
+    while ( JpGetLine( bframe[cv.bn].bfd, line, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
 
         bframe[cv.bn].uBatchLine++;
 
@@ -1909,7 +1909,7 @@ int inkey_input_cmd( int argc, char **argv )
 
     // get the variable
     if ( nInputFlag )
-        getline( STDIN, gszCmdline+len, nMaxLength, nEditFlag );
+        JpGetLine( STDIN, gszCmdline+len, nMaxLength, nEditFlag );
     else {
 
         for ( ; ; ) {
@@ -2339,7 +2339,7 @@ int switch_cmd( int argc, char **argv )
     strcpy( pszTest, argv[1] );
 
     // scan for a matching Case, Default, or the EndSwitch line
-    while ( getline( bframe[cv.bn].bfd, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
+    while ( JpGetLine( bframe[cv.bn].bfd, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
 
         bframe[cv.bn].uBatchLine++;
 
@@ -2399,7 +2399,7 @@ int case_cmd( int argc, char **argv )
         return BATCH_RETURN;
 
     // scan for the EndSwitch line
-    while ( getline( bframe[cv.bn].bfd, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
+    while ( JpGetLine( bframe[cv.bn].bfd, gszCmdline, CMDBUFSIZ-1, EDIT_DATA ) > 0 ) {
 
         bframe[cv.bn].uBatchLine++;
 

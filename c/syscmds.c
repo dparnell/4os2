@@ -565,7 +565,7 @@ ChangeDirectory:
 
         // rewind the file
         RewindFile( fd );
-        while ( getline( fd, szDirectory, MAXPATH, EDIT_DATA ) > 0 ) {
+        while ( JpGetLine( fd, szDirectory, MAXPATH, EDIT_DATA ) > 0 ) {
 
         if ( szDirectory[0] == '\0' )
             continue;
@@ -948,7 +948,7 @@ HaveDescription:
                     printf( DESCRIBE_PROMPT, fname );
 
                 // if input is redirected, exit if EoF
-                if ( getline( STDIN, szNewDescription, (( strlen( szNewDescription) <= gpIniptr->DescriptMax) ? gpIniptr->DescriptMax : strlen( szNewDescription)),EDIT_ECHO) == 0 ) {
+                if ( JpGetLine( STDIN, szNewDescription, (( strlen( szNewDescription) <= gpIniptr->DescriptMax) ? gpIniptr->DescriptMax : strlen( szNewDescription)),EDIT_ECHO) == 0 ) {
                     if ( _isatty( STDIN ) == 0 )
                         return rval;
                 }

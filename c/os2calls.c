@@ -301,7 +301,7 @@ int process_rexx( char *pszCmdName, char *line, int fRexx )
         line = strcpy( arg, line );
 
         // read the first line of the file
-        getline( gnGFH, gszCmdline, MAXLINESIZ - 1, EDIT_DATA );
+        JpGetLine( gnGFH, gszCmdline, MAXLINESIZ - 1, EDIT_DATA );
         gnGFH = _close( gnGFH );
 
         // if it's a REXX comment (begins with "/*"), call the

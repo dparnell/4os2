@@ -40,7 +40,7 @@ int main( int argc, char **argv )
             gszCmdline[0] = '\0';
 
             // get command line from STDIN
-            if (( argc = getline( STDIN, gszCmdline, MAXLINESIZ-1, EDIT_COMMAND )) > 0 ) {
+            if (( argc = JpGetLine( STDIN, gszCmdline, MAXLINESIZ-1, EDIT_COMMAND )) > 0 ) {
 
                 // add line to the history list BEFORE
                 //   doing alias & variable expansion
